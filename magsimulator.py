@@ -861,10 +861,10 @@ def extract_3Dfields(mags,xmin=-100,xmax=100,ymin=-100,ymax=100,zmin=-100, zmax=
         add_colorbar(im3)
         ax3.title.set_text('yz plane')
         
-        fig.suptitle('B field (mT). Mean: ' + str(round(meanmean,3)) + ', std: '  + str(round(stdstd,3)) + '\n Mean B field (MHz): ' + str(round(42.580000*meanmean/1000,3)) + ' std (Hz)' + str(round(42580000*stdstd/1000,3)))
-        fig.show()
-        
-        
+    fig.suptitle('B field (mT). Mean: ' + str(round(meanmean,3)) + ', std: '  + str(round(stdstd,3)) + '\n Mean B field (MHz): ' + str(round(42.580000*meanmean/1000,3)) + ' std (Hz)' + str(round(42580000*stdstd/1000,3)))
+    fig.show()
+    
+    
     return data
 
 
@@ -908,3 +908,7 @@ def plot_3D_field(B_mT,Bcomponent=0,xmin=-100,xmax=100,ymin=-100,ymax=100,zmin=-
     fig.suptitle('B field (mT). Mean: ' + str(round(meanmean,3)) + ', std: '  + str(round(stdstd,3)) + '\n Mean B field (MHz): ' + str(round(42.580000*meanmean/1000,3)) + ' std (Hz)' + str(round(42580000*stdstd/1000,3)))
     fig.show()
     
+
+#%% Simple circular Halbach array helper and demo
+
+ 

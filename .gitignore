@@ -1,0 +1,22 @@
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.swp
+*.DS_Store
+.Python
+env/
+venv/
+.venv/
+pip-wheel-metadata/
+build/
+dist/
+*.egg-info/
+*.egg
+.vscode/
+*.log
+*.tmp
+*.bak
+# Project-specific
+magnet_design.venv/
+get-pip.py
