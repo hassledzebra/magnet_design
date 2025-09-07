@@ -46,6 +46,29 @@ Use a Python virtual environment and install dependencies from `requirements.txt
     python simulation_test.py
     ```
 
+## 3D Viewer
+
+Visualize basic magnet structures from a ledger using `magnet_position_viewer.py`:1.
+
+- magpylib cuboids (uses orientations and sizes):
+
+  ```bash
+  python magnet_position_viewer.py --ledger optimization_after_neonate_magnet_Rmin_132p7mm_extrinsic_rot_DSV140mm_maxh60_maxlayers6_maxmag990.xlsx
+  ```
+
+- Plotly point cloud (positions only):
+
+  ```bash
+  python magnet_position_viewer.py --ledger path/to/ledger.xlsx --backend plotly
+  ```
+
+- Options:
+  - `--ledger`: Path to `.xlsx` or `.csv` ledger file.
+  - `--backend`: `magpy` (default) or `plotly`.
+  - `--magnetization Mx My Mz`: For magpylib rendering, default `1270 0 0` mT.
+
+If `--ledger` is omitted, the script tries known filenames in the repo.
+
 ### Notes
 
 - If you prefer using the existing local environment `magnet_design.venv/`, you can activate it directly instead of creating a new one:
