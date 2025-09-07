@@ -34,6 +34,7 @@ import numpy.matlib
 from pymoo.algorithms.soo.nonconvex.ga import GA
 from pymoo.problems import get_problem
 from pymoo.optimize import minimize
+from optimizer_parallel_tools import minimize_with_progress
 from pymoo.core.problem import ElementwiseProblem
 
 from pymoo.algorithms.soo.nonconvex.ga import GA
@@ -293,11 +294,18 @@ problem = MultiObjectiveMixedVariableProblem()
 
 algorithm = MixedVariableGA(pop_size=25, survival=RankAndCrowdingSurvival())
 
-res = minimize(problem,
+# Run with parallelization + live progress/ETA
+import multiprocessing
+n_workers = max(2, min(8, multiprocessing.cpu_count()))
+
+res = minimize_with_progress(
+               problem,
                algorithm,
-               ('n_gen', 4000),
+               n_gen=4000,
                seed=1,
-               verbose=True)
+               verbose=True,
+               n_workers=n_workers,
+               backend='thread')
 
 
 plt.figure()
