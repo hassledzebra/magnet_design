@@ -1,5 +1,9 @@
+import os
 import numpy as np
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D  # noqa: F401
 import magpylib as magpy
 from scipy.spatial.transform import Rotation as R
 import pandas as pd
@@ -212,6 +216,32 @@ def plot_xy_field(col_magnets,
     plt.show()
 
 
+def plot_3d_field(col_magnets,
+                  extent_mm=150.0,
+                  grid_size=20,
+                  filename='image/field3d.png'):
+    """Compute the magnetic field on a 3-D grid and save a scatter plot."""
+    xs = np.linspace(-extent_mm, extent_mm, grid_size)
+    ys = np.linspace(-extent_mm, extent_mm, grid_size)
+    zs = np.linspace(-extent_mm, extent_mm, grid_size)
+    X, Y, Z = np.meshgrid(xs, ys, zs)
+    grid = np.stack((X.ravel(), Y.ravel(), Z.ravel()), axis=-1)
+    B = col_magnets.getB(grid)
+    Bmag = np.linalg.norm(B, axis=1)
+
+    fig = plt.figure()
+    ax = fig.add_subplot(111, projection='3d')
+    sc = ax.scatter(grid[:, 0], grid[:, 1], grid[:, 2], c=Bmag, cmap='viridis', s=5)
+    ax.set_xlabel('x (mm)')
+    ax.set_ylabel('y (mm)')
+    ax.set_zlabel('z (mm)')
+    cbar = fig.colorbar(sc, ax=ax, pad=0.1)
+    cbar.ax.set_ylabel('|B| (mT)')
+    os.makedirs(os.path.dirname(filename), exist_ok=True)
+    fig.savefig(filename)
+    plt.close(fig)
+
+
 if __name__ == '__main__':
     # Trapezoidal (wedge) arch magnets using CylinderSegment
     # Keep comparable sizing to previous cubes: ~12.7 mm radial thickness and height
@@ -234,3 +264,4 @@ if __name__ == '__main__':
     # Visualize |B| and in-plane streamlines in the z=0 plane
     extent = 2.0 * (R_mm + radial_thickness_mm)
     plot_xy_field(col_demo, plane_z_mm=z_plane, extent_mm=extent, grid_size=181, component=None, segments_ledger=seg_ledger, show_streamlines=True)
+    plot_3d_field(col_demo, extent_mm=extent, grid_size=20, filename='image/field3d.png')
